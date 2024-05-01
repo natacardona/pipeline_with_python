@@ -60,6 +60,12 @@ def load_data_to_db(file_path, engine):
     else:
         print(f"No data found in {file_path}")        
 
+def display_total_statistics(engine):
+    print("----------------------------------------------------------------")
+    query = """SELECT sum(total_rows) AS total_rows , sum(average_price) AS average_price , sum(min_price) AS min_price, sum(max_price) AS max_price FROM public.statistics;"""
+    df = pd.read_sql(query, engine)
+    print(df)
+    
 def main():
     DATABASE = 'datachallenge'
     USER = 'postgres'
@@ -83,6 +89,8 @@ def main():
     for file_name in csv_files:
         file_path = os.path.join(data_directory, file_name)
         load_data_to_db(file_path, engine)
+    
+    display_total_statistics(engine)   
 
 if __name__ == "__main__":
     main()
