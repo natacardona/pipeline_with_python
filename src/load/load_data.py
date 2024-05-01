@@ -9,7 +9,7 @@ def compute_hash(row):
     row_str = ''.join(map(str, row.values))
     return sha256(row_str.encode()).hexdigest()
 
-def load_data_to_db(file_path, engine):
+def load_data_to_db(file_path, engine,display_stats=False):
     # Load CSV data into DataFrame
     data = pd.read_csv(file_path)
     
@@ -54,18 +54,23 @@ def load_data_to_db(file_path, engine):
                 {'total_rows': total_rows, 'average_price': float(average_price), 'min_price': float(min_price), 'max_price': float(max_price)}
             )
             session.commit()
+            
             print("Statistics inserted successfully.")
+            if display_stats:
+                print("\nCurrent Statistics for this file:")
+                print(f"Total Rows: {total_rows}, Average Price: {average_price}, Minimum Price: {min_price}, Maximum Price: {max_price}")
         else:
             print("No new data to process.")
     else:
-        print(f"No data found in {file_path}")        
+        print(f"No data found in {file_path}")
+    session.close()         
 
 def display_total_statistics(engine):
     print("----------------------------------------------------------------")
     query = """SELECT sum(total_rows) AS total_rows , sum(average_price) AS average_price , sum(min_price) AS min_price, sum(max_price) AS max_price FROM public.statistics;"""
     df = pd.read_sql(query, engine)
     print(df)
-    
+                  
 def main():
     DATABASE = 'datachallenge'
     USER = 'postgres'
@@ -90,7 +95,11 @@ def main():
         file_path = os.path.join(data_directory, file_name)
         load_data_to_db(file_path, engine)
     
-    display_total_statistics(engine)   
+    display_total_statistics(engine)
+    
+     # Process the validation.csv file and display its statistics
+    validation_file = os.path.join(data_directory, 'validation.csv')
+    load_data_to_db(validation_file, engine, display_stats=True)   
 
 if __name__ == "__main__":
     main()
