@@ -38,6 +38,14 @@ def load_data_to_db(file_path, engine):
             min_price = data['price'].min() if not data['price'].isnull().all() else 0
             max_price = data['price'].max() if not data['price'].isnull().all() else 0
 
+            # Creating a DataFrame to hold the calculated values
+            summary_data = {
+                'Metric': ['Total Rows', 'Average Price', 'Minimum Price', 'Maximum Price'],
+                'Value': [total_rows, average_price, min_price, max_price]
+            }
+            summary_df = pd.DataFrame(summary_data)
+
+            print(summary_df)
             session.execute(
                 text("""
                     INSERT INTO statistics (total_rows, average_price, min_price, max_price)
@@ -50,7 +58,7 @@ def load_data_to_db(file_path, engine):
         else:
             print("No new data to process.")
     else:
-        print(f"No data found in {file_path}")
+        print(f"No data found in {file_path}")        
 
 def main():
     DATABASE = 'datachallenge'
