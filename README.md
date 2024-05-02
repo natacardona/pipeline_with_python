@@ -49,3 +49,9 @@ The script also utilizes modules from the Python Standard Library, which are inc
 1. **os**: Provides a portable way of using operating system dependent functionality.
 2. **zipfile**: Allows extraction of ZIP files.
 3. **shutil**: Offers a number of high-level operations on files and collections of files.
+
+#### Running the project
+1. Clone project
+2. Move to src directory
+3. Locate main.py file
+4. On terminal run `python main.py` or `python3 main.py` or just clic run and debug button on VSCode, there is a `launch.json` file on the code.
