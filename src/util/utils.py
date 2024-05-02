@@ -1,3 +1,4 @@
+from hashlib import sha256
 import os
 
 def ensure_directory_exists(directory):
