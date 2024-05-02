@@ -36,9 +36,11 @@ def load_data_to_db(file_path, display_stats=False):
         data = data[~data['row_hash'].isin(existing_hashes)]
 
         if not data.empty:
-            # Insert new records into the database
-            data.to_sql('transactions', con=session.bind, if_exists='append', index=False)
-            session.commit()
+            
+            if display_stats is False:
+                # Insert new records into the database
+                data.to_sql('transactions', con=session.bind, if_exists='append', index=False)
+                session.commit()
             
             # Calculate statistics
             total_rows = len(data)
@@ -57,11 +59,12 @@ def load_data_to_db(file_path, display_stats=False):
             print(summary_df)
             print("----------------------------------------------------------------")
             
-            session.execute(
-                text(INSERT_STATISTICS_QUERY),
-                {'total_rows': total_rows, 'average_price': float(average_price), 'min_price': float(min_price), 'max_price': float(max_price)}
-            )
-            session.commit()
+            if display_stats is False:
+                session.execute(
+                    text(INSERT_STATISTICS_QUERY),
+                    {'total_rows': total_rows, 'average_price': float(average_price), 'min_price': float(min_price), 'max_price': float(max_price)}
+                )
+                session.commit()
             
             if display_stats:
                 print("\nCurrent Statistics for this file:")
