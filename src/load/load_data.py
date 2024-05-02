@@ -72,11 +72,7 @@ def display_total_statistics(engine):
     print(df)
                   
 def main():
-    DATABASE = 'datachallenge'
-    USER = 'postgres'
-    PASSWORD = 'postgres'
-    HOST = 'localhost'
-    PORT = '5432'
+   
     
     # Create a connection to the database
     engine = create_engine(f'postgresql://{USER}:{PASSWORD}@{HOST}:{PORT}/{DATABASE}')
