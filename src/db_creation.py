@@ -10,9 +10,8 @@ def create_database():
     try:
         cursor.execute(sql.SQL(DROP_DATABASE_COMMAND).format(sql.Identifier(DATABASE)))
         cursor.execute(sql.SQL(CREATE_DATABASE_COMMAND).format(sql.Identifier(DATABASE)))
-        print("Database created successfully")
     except psycopg2.Error as e:
-        print(f"An error occurred: {e}")
+        exit(1)
     finally:
         cursor.close()
         conn.close()
@@ -28,9 +27,7 @@ def execute_sql_script():
     try:
         cursor.execute(sql_script)
         conn.commit()
-        print("SQL script executed successfully")
     except psycopg2.Error as e:
-        print(f"An error occurred: {e}")
         conn.rollback()
     finally:
         cursor.close()
