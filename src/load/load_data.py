@@ -1,10 +1,10 @@
 import os
 import pandas as pd
-from sqlalchemy import create_engine, text
+from sqlalchemy import text
 from sqlalchemy.orm import sessionmaker
-from hashlib import sha256
 
 from util.constants import CHILD_DATA_DIRECTORY, CSV_FILES, DATAFRAME_HEADERS, DB_ENGINE, INSERT_STATISTICS_QUERY, ROOT_DATA_DIRECTORY, SELECT_TRANSACTIONS_QUERY, STATISTICS_QUERY, VALIDATION_CSV_FILE
+from util.utils import compute_hash
 
 # Get the base directory of the project
 base_dir = os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))    
@@ -13,11 +13,6 @@ data_directory = os.path.join(base_dir, ROOT_DATA_DIRECTORY , CHILD_DATA_DIRECTO
 # Define the directory where CSV files are stored
 validation_file = os.path.join(data_directory, VALIDATION_CSV_FILE)
     
-def compute_hash(row):
-    """Compute a SHA-256 hash of the given row."""
-    row_str = ''.join(map(str, row.values))
-    return sha256(row_str.encode()).hexdigest()
-
 def load_data_to_db(file_path, display_stats=False):
     # Load CSV data into DataFrame
     data = pd.read_csv(file_path)
