@@ -4,9 +4,8 @@
 ### Database Setup
 #### Installation
 
-1. Install PostgreSQL: Download and install PostgreSQL on your operating system.
-2. 
-Configure PostgreSQL: Follow the installation instructions to set up PostgreSQL on your system. Ensure that the necessary configuration parameters are appropriately set based on the system requirements.
+1. **Install PostgreSQL**: Download and install PostgreSQL on your operating system.
+2. **Configure PostgreSQL**: Follow the installation instructions to set up PostgreSQL on your system. Ensure that the necessary configuration parameters are appropriately set based on the system requirements.
 
 #### Database Creation
 
